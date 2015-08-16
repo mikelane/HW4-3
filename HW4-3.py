@@ -1,6 +1,7 @@
 __author__ = 'Mike'
 
 import heapq
+import random
 
 class Widget:
     def __init__(self, X, Y, Z):
@@ -25,6 +26,7 @@ class Widget:
         for element in leftover:
             if element > 0:
                 done = False
+                continue
 
         # If nothing still remains to be subtracted, return the tuple.
         if done:
@@ -41,24 +43,52 @@ class Widget:
                 for i in c:
                     if i < 0:
                         makeRecursiveCall = False
+            else: # this doesn't work. If some recursive call never takes
+                  # only ever goes negative, this doesn't make it stop.
+                c = list(c)
+                d = [x if x >= 0 else 0 for x in c]
+                c = tuple(d)
+
+            # If we haven't reached the base case...
             if makeRecursiveCall:
-                if c in self.m:
-                    conglomeratesList += self.m[c]
-                else:
-                    conglomeratesList += self._get_min(c)
+                if c in self.m: # Check to see if we already know the answer
+                    conglomeratesList += self.m[c] # if so concatenate it
+                else: # Otherwise, determine the answer and concatenate it
+                    conglomeratesList += self._get_min(c, allowWaste)
                 # Push the concatenated list on the heap sorted by length of the list
                 heapq.heappush(cHeap, (len(conglomeratesList), conglomeratesList))
 
         # Now that we've made all the recursive calls that we're going to make,
         # pop the smallest from the heap, extract the list, and return it
         smallest = heapq.heappop(cHeap)
+        # Find the list
         for data in smallest:
             if type(data) is list:
                 smallest = data
+        # hash the smallest using the passed in tuple as the key
         self.m[leftover] = smallest
-        return smallest
+        return smallest # return the smallest to the caller
 
-test = Widget(6, 1, 2)
-min = test.get_min()
-print(min)
-print("\n")
+# Testing and pretty print. Make 10 random conglomerations, get the min and print the
+# min values out to the screen.
+for i in range(10):
+    X = random.randrange(20)
+    Y = random.randrange(20)
+    Z = random.randrange(20)
+    print("X: {}, Y: {}, Z: {}".format(X, Y, Z))
+    widget = Widget(X, Y, Z)
+    min = widget.get_min()
+    result = {'A' : min.count('A'),
+              'B' : min.count('B'),
+              'C' : min.count('C'),
+              'D' : min.count('D'),
+              'E' : min.count('E'),
+              'F' : min.count('F'),
+              'G' : min.count('G'),
+              'H' : min.count('H'),
+              'len' : len(min)}
+    print("len: {}".format(result['len']), end=": [")
+    for key, value in result.items():
+        if value != 0 and key != 'len':
+            print("{}: {}".format(key, value), end=" ")
+    print("]\n")
