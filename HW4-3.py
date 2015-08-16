@@ -1,4 +1,14 @@
-__author__ = 'Mike'
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+This is my attempt at coding the last question of the last homework assignment
+for my algorithms class at Portland State University.
+"""
+
+__author__ = 'Mike Lane (http://www.github.com/mikelane/'
+__copyright__ = 'Copyright (c) $YEAR Mike Lane'
+__license__ = 'GPLv3'
 
 import heapq
 import random
