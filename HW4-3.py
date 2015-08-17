@@ -7,7 +7,7 @@ for my algorithms class at Portland State University.
 """
 
 __author__ = 'Mike Lane (http://www.github.com/mikelane/'
-__copyright__ = 'Copyright (c) $YEAR Mike Lane'
+__copyright__ = 'Copyright (c) 2015 Mike Lane'
 __license__ = 'GPLv3'
 
 import heapq
